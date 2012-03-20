@@ -1,5 +1,6 @@
-var http = require('http');
-var querystring = require('querystring');
+var utils = require('./utils'),
+    querystring = require('querystring'),
+    http = require('http');
 
 TeamLab = function(domain) {
   this.domain   = domain;
@@ -8,26 +9,34 @@ TeamLab = function(domain) {
   this.session  = null;
 };
 
-TeamLab.prototype.authenticate = function(username, password, callback) {
-  if (username) this.username = username;
-  if (password) this.password = password;
+TeamLab.prototype.api_call = function(method, path, post_data, callback) {
+  if (post_data === null) post_data = {};
+  var options, req,
+      query = querystring.stringify(post_data);
+      
+  method = method.toUpperCase();
   
-  var post_data = querystring.stringify({
-    'userName': this.username,
-    'password': this.password
-  });
-  
-  var options = {
+  options = {
     host: this.domain,
     port: 80,
-    path: '/api/1.0/authentication.json',
-    method: "POST",
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Content-Length': post_data.length
-    }
+    path: utils.api_path(path),
+    method: method,
+    headers: {}
   };
-
+  
+  if (this.session) {
+    options.headers['Authorization'] = this.session.token;
+  }
+  
+  if (method === 'POST') {
+    if (query.length < 1) {
+      throw "This is a POST method without post data?";
+    }
+    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    options.headers['Content-Length'] = query.length;
+  }
+  
+  _this = this;
   var req = http.request(options, function(res) {
     var body = "";
     res.setEncoding('utf8');
@@ -35,19 +44,40 @@ TeamLab.prototype.authenticate = function(username, password, callback) {
       body += chunk;
     });
     res.addListener('end', function() {
-      var response = JSON.parse(body);
-      var error = null;
-      var data = null;
-      if (response.error) error = response.error;
-      if (response.response) {
-        data = response.response;
-        this.session = response.response;
+      var response = null, error = null, data = null;
+      try {
+        response = JSON.parse(body);
+        if (response.error) error = response.error;
+        if (response.response) {
+          data = response.response;
+          if (_this.session === null) _this.session = response.response;
+        }
+      } catch(err) {
+        error = { 'message': err };
       }
-      if (typeof callback === "function") callback(error, response);
+      if (typeof callback === "function") callback(error, data);
     });
   });
-  req.write(post_data);
+  if (method === 'POST') {
+    req.write(query);
+  }
   req.end();
+};
+
+TeamLab.prototype.authenticate = function(username, password, callback) {
+  if (username) this.username = username;
+  if (password) this.password = password;
+  
+  var post_data = {
+    'userName': this.username,
+    'password': this.password
+  };
+  
+  this.api_call('POST', '/authentication', post_data, callback);
+}
+
+TeamLab.prototype.project_list = function(callback) {
+  this.api_call('GET', '/project', null, callback);
 }
 
 module.exports = TeamLab;
