@@ -1,0 +1,18 @@
+{
+  "author": "Balazs Nadasdi <yitsushi@gmail.com>",
+  "name": "jsTeamLabAPI",
+  "description": "Node.js module to access TeamLabs's API",
+  "version": "0.0.1",
+  "keywords": [ "teamlab", "api" ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Yitsushi/jsTeamLabAPI.git"
+  },
+  "main": "teamlabapi.js",
+  "engines": {
+    "node": "*"
+  },
+  "dependencies": {
+  },
+  "license": "BSD"
+}
