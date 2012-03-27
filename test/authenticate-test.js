@@ -9,7 +9,7 @@ describe('authentication', function() {
     api = new TeamLab(Config.domain);
   });
   
-  describe('false login', function() {
+  describe('with false login', function() {
     it('should return with error and null', function() {
       api.authenticate(
         Config.false_login.username,
@@ -23,7 +23,7 @@ describe('authentication', function() {
     });
   });
   
-  describe('true login', function() {
+  describe('with true login', function() {
     it('should return with error and null', function() {
       api.authenticate(
         Config.true_login.username,
