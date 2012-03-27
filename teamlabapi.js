@@ -1,6 +1,7 @@
 var utils = require('./utils'),
     querystring = require('querystring'),
-    http = require('http');
+    http = require('http'),
+    TeamLab;
 
 TeamLab = function(domain) {
   this.domain   = domain;
@@ -25,7 +26,7 @@ TeamLab.prototype.api_call = function(method, path, post_data, callback) {
   };
   
   if (this.session) {
-    options.headers['Authorization'] = this.session.token;
+    options.headers.Authorization = this.session.token;
   }
   
   if (method === 'POST') {
@@ -36,8 +37,8 @@ TeamLab.prototype.api_call = function(method, path, post_data, callback) {
     options.headers['Content-Length'] = query.length;
   }
   
-  _this = this;
-  var req = http.request(options, function(res) {
+  var _this = this;
+  req = http.request(options, function(res) {
     var body = "";
     res.setEncoding('utf8');
     res.addListener('data', function(chunk) {
@@ -74,10 +75,10 @@ TeamLab.prototype.authenticate = function(username, password, callback) {
   };
   
   this.api_call('POST', '/authentication', post_data, callback);
-}
+};
 
 TeamLab.prototype.project_list = function(callback) {
   this.api_call('GET', '/project', null, callback);
-}
+};
 
 module.exports = TeamLab;
