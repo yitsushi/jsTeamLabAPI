@@ -17,7 +17,7 @@ describe('project', function() {
         Config.true_login.password,
         function(err) {
           should.not.exist(err);
-          api.project_list(function(err, data) {
+          api.project.all(function(err, data) {
             should.not.exist(err);
             should.exist(data);
             assert(typeof data, typeof new Array());
