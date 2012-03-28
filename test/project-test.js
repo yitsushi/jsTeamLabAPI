@@ -11,7 +11,7 @@ describe('project', function() {
   });
   
   describe('#list', function() {
-    it('should return with a list of projects', function() {
+    it('should return with a list of projects', function(done) {
       api.authenticate(
         Config.true_login.username,
         Config.true_login.password,
@@ -21,6 +21,7 @@ describe('project', function() {
             should.not.exist(err);
             should.exist(data);
             assert(typeof data, typeof new Array());
+            done();
           });
         });
     });

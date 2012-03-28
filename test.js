@@ -1,19 +1,25 @@
 var Mocha = require('mocha');
 
 var mocha = new Mocha();
-mocha.reporter('spec').ui('bdd');
+mocha.reporter('dot').ui('bdd');
 
-mocha.addFile('test/authenticate-test.js');
-mocha.addFile('test/project-test.js');
+files = [
+  'test/authenticate-test.js',
+  'test/project-test.js'
+]
+
+for(var i = 0, _l = files.length; i < _l; i++) {
+  mocha.addFile(files[i]);
+}
 
 var runner = mocha.run(function() {
-  console.log('finished');
+  process.exit(1);
 });
 
 runner.on('pass', function(test) {
-  console.log('... %s passed', test.title);
+  // console.log('... %s passed', test.title);
 });
 
 runner.on('fail', function(test) {
-  console.log('... %s failed', test.title);
+  // console.log('... %s failed', test.title);
 });
