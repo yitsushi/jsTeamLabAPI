@@ -1,6 +1,6 @@
 var Mocha = require('mocha');
 
-var mocha = new Mocha();
+var mocha = new Mocha({ timeout: 5000 });
 mocha.reporter('dot').ui('bdd');
 
 files = [
