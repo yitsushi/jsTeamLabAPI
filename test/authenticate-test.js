@@ -25,7 +25,7 @@ describe('authentication', function() {
   });
   
   describe('with true login', function() {
-    it('should return with error and null', function(done) {
+    it('should return without error and with data of the current session', function(done) {
       api.authenticate(
         Config.true_login.username,
         Config.true_login.password,
