@@ -4,7 +4,7 @@ module.exports.false_login = {
   password: 'this is a bad password'
 };
 module.exports.true_login = {
-  username: 'demouser@mailinator.com',
+  username: 'demouser@code-infection.com',
   password: 'DemoUser'
 };
 
