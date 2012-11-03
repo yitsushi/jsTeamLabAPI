@@ -1,7 +1,7 @@
 {
   "author": "Balazs Nadasdi <yitsushi@gmail.com>",
   "name": "jsTeamLabAPI",
-  "description": "Node.js module to access TeamLabs's API",
+  "description": "[deprecated] Node.js module to access TeamLabs's API",
   "version": "0.0.1",
   "keywords": [ "teamlab", "api" ],
   "repository": {
