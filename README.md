@@ -2,6 +2,8 @@
 
 **UNDER DEVELOPMENT**
 
+**Suspended: does not work; reason: API changes**
+
 Node.js module to access TeamLabs's API
 
 ### Sample Usage
